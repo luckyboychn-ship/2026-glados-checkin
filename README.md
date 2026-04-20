@@ -1,7 +1,6 @@
 # 🎁 每天+20积分，5分钟搞定 GLaDOS 自动签到
 
 <div align="center">
-
 **你不用写代码 · 不用买服务器 · 不用每天登录**
 
 **一次配置，永久自动，每天 9:30 / 21:30 签到**
@@ -210,120 +209,9 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 简单说：点 Run workflow 是**测试**，以后会**自动运行**。
 
-</details>
-
-</details>
-
 ---
 
-## ⭐ 推荐方案：cron-job.org 配置定时
-
-由于 GitHub Actions 对新仓库的定时任务有限制（[详见说明](#-为什么-github-actions-定时不可靠)），我们推荐使用 **cron-job.org** 这项免费服务来触发签到。
-
-### 配置步骤（5分钟搞定）
-
-#### 第一步：获取 GitHub Personal Access Token
-
-1. 访问 [https://github.com/settings/tokens](https://github.com/settings/tokens)
-2. 点击 **Generate new token** → **Generate new token (classic)**
-3. 按下图配置：
-
-![GitHub Token 设置](images/github_access_tokens.png)
-
-| 选项 | 值 |
-|------|-----|
-| **Name** | `glados-cron`（任意名称） |
-| **Expiration** | 选择 90 天或更久 |
-| **勾选权限** | ✅ **workflow**（在 repo 下方） |
-
-4. 点击底部 **Generate token**
-5. **立即复制生成的 token**（格式类似 `ghp_1234567890abcdef...`，只显示一次！）
-
-> 💡 Token 示例：`ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
-
-#### 第二步：注册 cron-job.org
-
-1. 访问 [https://cron-job.org](https://cron-job.org) 注册账号（免费）
-2. 注册后登录，点击 **Create Cronjob** 创建任务
-
-#### 第三步：创建早签到任务（9:30）
-
-![创建 Cron 任务](images/create_corn_job.png)
-
-按照以下配置填写：
-
-**基本信息**：
-
-| 选项 | 填写 |
-|------|------|
-| **Title** | `GLaDOS 早签到` |
-| **URL** | `https://api.github.com/repos/你的用户名/2026-glados-checkin/actions/workflows/checkin.yml/dispatches` |
-
-> ⚠️ **重要**：把 `你的用户名` 改成你的 GitHub 用户名！比如 `lankerr`
-
-**执行时间**：选择每天 **09:30**（Asia/Shanghai 时区）
-
-**高级配置**（点击 Advanced 展开）：
-
-![高级配置](images/cron_advanced.png)
-
-| 选项 | 值 |
-|------|-----|
-| **Request method** | POST |
-| **Time zone** | Asia/Shanghai |
-
-**请求头（Headers）**：点击 "+ 添加" 添加三行：
-
-| Key | Value |
-|-----|-------|
-| `Accept` | `application/vnd.github.v3+json` |
-| `Authorization` | `token 你复制的GitHub_Token` |
-| `Content-Type` | `application/json` |
-
-> ⚠️ **注意**：Authorization 的值是 `token ` + **空格** + 你的 Token，例如：`token ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
-
-**请求体（Request body）**：选择 Raw Body，填入：
-```json
-{"ref": "main"}
-```
-
-![常用配置预览](images/cron_common.png)
-
-配置完成后点击 **Save** 保存。
-
-#### 第四步：创建晚签到任务（21:30）
-
-复制早签到任务，创建第二个任务：
-- Title 改为 `GLaDOS 晚签到`
-- 执行时间改为 **21:30**
-- 其他配置完全相同
-
-#### 第五步：测试验证
-
-1. 在任务列表点击 **Test run** 测试
-2. 成功会显示 **204 No Content** ✅
-
-![测试成功](images/cron_success.png)
-
-3. 到 GitHub 仓库的 **Actions** 页面查看，应该有新的运行记录
-
----
-
-### 🚨 常见陷阱与错误
-
-| 错误 | 现象 | 原因 | 解决方法 |
-|------|------|------|---------|
-| **401 Unauthorized** | 认证失败 | Authorization 格式错误 | 必须是 `token ghp_xxx`，注意 `token ` 后有空格 |
-| **422 Unprocessable Entity** | 请求无法处理 | Body 缺少 ref 参数 | 改为 `{"ref": "main"}` |
-| Accept 被截断 | 配置错误 | 输入框显示不全 | 完整值：`application/vnd.github.v3+json` |
-| Token 有空格 | 认证失败 | Token 被意外截断 | Token 是连续字符串，中间不能有空格 |
-| 权限不足 | 403 错误 | Token 无 workflow 权限 | 重新生成 Token，勾选 workflow 权限 |
-
-> 💡 **小贴士**：遇到 401/422 错误时，先检查上面三行 Headers 是否完全正确！
-
----
-
-## 🚀 快速部署（3步搞定）
+## 🚀 快速部署
 
 ### 第一步：Fork 本仓库
 
@@ -440,6 +328,118 @@ else:
 4. 点击右侧 **Run workflow** 按钮手动测试一次
 
 ![启用 Actions](images/workflow.png)
+
+> [!IMPORTANT]
+>
+> 由于 GitHub Actions 对新仓库的定时任务有限制（[详见说明](#-为什么-github-actions-定时不可靠)），我们推荐使用 **cron-job.org** 这项免费服务来触发签到。
+
+## ⭐ 推荐增加：cron-job.org 配置定时
+
+### 配置步骤
+
+#### 第一步：获取 GitHub Personal Access Token
+
+1. 访问 [https://github.com/settings/tokens](https://github.com/settings/tokens)
+2. 点击 **Generate new token** → **Generate new token (classic)**
+3. 按下图配置：
+
+![GitHub Token 设置](images/github_access_tokens.png)
+
+| 选项           | 值                             |
+| -------------- | ------------------------------ |
+| **Name**       | `glados-cron`（任意名称）      |
+| **Expiration** | 选择 90 天或更久               |
+| **勾选权限**   | ✅ **workflow**（在 repo 下方） |
+
+4. 点击底部 **Generate token**
+5. **立即复制生成的 token**（格式类似 `ghp_1234567890abcdef...`，只显示一次！）
+
+> 💡 Token 示例：`ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
+
+#### 第二步：注册 cron-job.org
+
+1. 访问 [https://cron-job.org](https://cron-job.org) 注册账号（免费）
+2. 注册后登录，点击 **Create Cronjob** 创建任务
+
+#### 第三步：创建早签到任务（9:30）
+
+![创建 Cron 任务](images/create_corn_job.png)
+
+按照以下配置填写：
+
+**基本信息**：
+
+| 选项      | 填写                                                         |
+| --------- | ------------------------------------------------------------ |
+| **Title** | `GLaDOS 早签到`                                              |
+| **URL**   | `https://api.github.com/repos/你的用户名/2026-glados-checkin/actions/workflows/checkin.yml/dispatches` |
+
+> ⚠️ **重要**：把 `你的用户名` 改成你的 GitHub 用户名！比如 `lankerr`
+
+**执行时间**：选择每天 **09:30**（Asia/Shanghai 时区）
+
+**高级配置**（点击 Advanced 展开）：
+
+![高级配置](images/cron_advanced.png)
+
+| 选项               | 值            |
+| ------------------ | ------------- |
+| **Request method** | POST          |
+| **Time zone**      | Asia/Shanghai |
+
+**请求头（Headers）**：点击 "+ 添加" 添加三行：
+
+| Key             | Value                            |
+| --------------- | -------------------------------- |
+| `Accept`        | `application/vnd.github.v3+json` |
+| `Authorization` | `token 你复制的GitHub_Token`     |
+| `Content-Type`  | `application/json`               |
+
+> ⚠️ **注意**：Authorization 的值是 `token ` + **空格** + 你的 Token，例如：`token ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
+
+**请求体（Request body）**：选择 Raw Body，填入：
+
+```json
+{"ref": "main"}
+```
+
+![常用配置预览](images/cron_common.png)
+
+配置完成后点击 **Save** 保存。
+
+#### 第四步：创建晚签到任务（21:30）
+
+复制早签到任务，创建第二个任务：
+
+- Title 改为 `GLaDOS 晚签到`
+- 执行时间改为 **21:30**
+- 其他配置完全相同
+
+#### 第五步：测试验证
+
+1. 在任务列表点击 **Test run** 测试
+2. 成功会显示 **204 No Content** ✅
+
+![测试成功](images/cron_success.png)
+
+3. 到 GitHub 仓库的 **Actions** 页面查看，应该有新的运行记录
+
+---
+
+### 🚨 常见陷阱与错误
+
+| 错误                         | 现象         | 原因                   | 解决方法                                       |
+| ---------------------------- | ------------ | ---------------------- | ---------------------------------------------- |
+| **401 Unauthorized**         | 认证失败     | Authorization 格式错误 | 必须是 `token ghp_xxx`，注意 `token ` 后有空格 |
+| **422 Unprocessable Entity** | 请求无法处理 | Body 缺少 ref 参数     | 改为 `{"ref": "main"}`                         |
+| Accept 被截断                | 配置错误     | 输入框显示不全         | 完整值：`application/vnd.github.v3+json`       |
+| Token 有空格                 | 认证失败     | Token 被意外截断       | Token 是连续字符串，中间不能有空格             |
+| 权限不足                     | 403 错误     | Token 无 workflow 权限 | 重新生成 Token，勾选 workflow 权限             |
+
+> 💡 **小贴士**：遇到 401/422 错误时，先检查上面三行 Headers 是否完全正确！
+
+
+
 
 **🎉 完成！** 以后每天 9:30 和 21:30 会自动签到。
 
