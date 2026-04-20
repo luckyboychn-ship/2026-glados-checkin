@@ -1,6 +1,7 @@
 # 🎁 每天+20积分，5分钟搞定 GLaDOS 自动签到
 
 <div align="center">
+
 **你不用写代码 · 不用买服务器 · 不用每天登录**
 
 **一次配置，永久自动，每天 9:30 / 21:30 签到**
@@ -9,12 +10,12 @@
 
 ### ✨ 为什么选择本项目？
 
-| 优势 | 说明 |
-|------|------|
-| ✅ **2026年验证可用** | 经过实测，确认在2026年1月正常工作 |
-| ✅ **绝对可用** | 修复了其他脚本失效的问题（token更新为glados.cloud） |
-| ✅ **新手友好** | 全程图解，不会也能照着做 |
-| ✅ **作者持续维护** | 遇到问题提Issue，作者很乐意帮忙 |
+| 优势                  | 说明                                                |
+| --------------------- | --------------------------------------------------- |
+| ✅ **2026年验证可用** | 经过实测，确认在2026年1月正常工作                   |
+| ✅ **绝对可用**       | 修复了其他脚本失效的问题（token更新为glados.cloud） |
+| ✅ **新手友好**       | 全程图解，不会也能照着做                            |
+| ✅ **作者持续维护**   | 遇到问题提Issue，作者很乐意帮忙                     |
 
 ---
 
@@ -28,7 +29,7 @@
 
 ### 🚀 3步搞定，永久自动签到
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
 │   ① Fork 项目    ──→  点一下右上角 Fork 按钮                 │
@@ -42,7 +43,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[👉 点击开始配置](#-快速部署3步搞定-)**
+**[👉 点击开始配置](#-快速部署)**
 
 ---
 
@@ -73,11 +74,11 @@
 
 GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失效**。我们通过抓包分析发现了问题：
 
-| 问题 | 旧脚本 | 本项目（已修复） |
-|------|--------|------------------|
-| 签到 Token | `glados.one` ❌ | `glados.cloud` ✅ |
-| 域名支持 | rocks/network ❌ | cloud ✅ |
-| 签到结果 | "please checkin via..." | "Checkin!" 或 "Repeats" ✅ |
+| 问题       | 旧脚本                  | 本项目（已修复）           |
+| ---------- | ----------------------- | -------------------------- |
+| 签到 Token | `glados.one` ❌         | `glados.cloud` ✅          |
+| 域名支持   | rocks/network ❌        | cloud ✅                   |
+| 签到结果   | "please checkin via..." | "Checkin!" 或 "Repeats" ✅ |
 
 <details>
 <summary><b>🔬 技术细节：我们是怎样修复问题的（感兴趣的看）</b></summary>
@@ -85,6 +86,7 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 ### 🔬 我们的探索过程
 
 #### 问题现象
+
 - GitHub Actions 可以正常运行
 - 推送消息显示 "成功0/1"
 - 签到结果始终为 "please checkin via https://glados.cloud"
@@ -93,22 +95,25 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 #### 排查步骤
 
 1️⃣ **浏览器抓包分析**
+
 - 使用 Chrome DevTools 抓取真实签到请求
 - 对比浏览器请求和 Python 脚本请求的差异
 
 2️⃣ **尝试的方案（失败）**
-- ❌ 添加更多 Headers（sec-ch-ua、sec-fetch-* 等）
+
+- ❌ 添加更多 Headers（sec-ch-ua、sec-fetch-\* 等）
 - ❌ 使用 requests.Session 保持会话
 - ❌ 使用 curl_cffi 模拟浏览器 TLS 指纹
 - ❌ 添加代理配置
 
 3️⃣ **最终发现**
 通过对比不同 token 值的请求结果：
+
 ```python
 # 失败 ❌
 {'token': 'glados.one'}  → "please checkin via https://glados.cloud"
 
-# 成功 ✅  
+# 成功 ✅
 {'token': 'glados.cloud'} → "Checkin Repeats! Please Try Tomorrow"
 ```
 
@@ -118,7 +123,8 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 ---
 
-> **📢 重要提示**  
+> **📢 重要提示**
+>
 > - GLaDOS 官网已迁移至 **glados.cloud**（不再是 glados.rocks）
 > - 本项目专为 2026 积分制度优化，每天自动签到两次
 > - 完全免费，使用 GitHub Actions，无需自己的服务器
@@ -128,15 +134,15 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 ## ✨ 功能特点
 
-| 功能 | 说明 |
-|------|------|
-| 🎯 **精准积分** | 获取真实积分数据 + 每日变化量 |
-| 🎁 **兑换提示** | 显示当前可兑换选项及差额 |
+| 功能            | 说明                            |
+| --------------- | ------------------------------- |
+| 🎯 **精准积分** | 获取真实积分数据 + 每日变化量   |
+| 🎁 **兑换提示** | 显示当前可兑换选项及差额        |
 | ⏰ **每日两次** | 早上 9:30 + 晚上 21:30 自动签到 |
-| 🔄 **失败重试** | 首次失败自动重试一次 |
-| 📱 **微信推送** | PushPlus 漂亮 HTML 报告 |
-| ☁️ **2026 API** | 适配最新 glados.cloud API |
-| 🔧 **持续维护** | 发现问题及时修复 |
+| 🔄 **失败重试** | 首次失败自动重试一次            |
+| 📱 **微信推送** | PushPlus 漂亮 HTML 报告         |
+| ☁️ **2026 API** | 适配最新 glados.cloud API       |
+| 🔧 **持续维护** | 发现问题及时修复                |
 
 ---
 
@@ -144,20 +150,20 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 本项目支持以下环境变量配置：
 
-| 变量名 | 必填 | 说明 |
-|------|------|------|
-| `GLADOS_COOKIE` | ✅ 是 | GLaDOS 的 Cookie。多个账号请用 `&` 或换行符分隔。 |
-| `PUSHPLUS_TOKEN` | ❌ 否 | PushPlus 微信推送 Token。 |
-| `TELEGRAM_BOT_TOKEN` | ❌ 否 | Telegram 机器人的 Token（例如 `123456:ABC-DEF1234...`） |
-| `TELEGRAM_CHAT_ID` | ❌ 否 | 接收推送的 Telegram Chat ID |
-| `PUSH_LEVEL` | ❌ 否 | 推送级别：`all` (默认，每次均推送) 或 `fail_only` (仅有账号签到失败时推送) |
+| 变量名               | 必填  | 说明                                                                       |
+| -------------------- | ----- | -------------------------------------------------------------------------- |
+| `GLADOS_COOKIE`      | ✅ 是 | GLaDOS 的 Cookie。多个账号请用 `&` 或换行符分隔。                          |
+| `PUSHPLUS_TOKEN`     | ❌ 否 | PushPlus 微信推送 Token。                                                  |
+| `TELEGRAM_BOT_TOKEN` | ❌ 否 | Telegram 机器人的 Token（例如 `123456:ABC-DEF1234...`）                    |
+| `TELEGRAM_CHAT_ID`   | ❌ 否 | 接收推送的 Telegram Chat ID                                                |
+| `PUSH_LEVEL`         | ❌ 否 | 推送级别：`all` (默认，每次均推送) 或 `fail_only` (仅有账号签到失败时推送) |
 
 ---
 
 <details>
 <summary><b>📚 给小白的科普：什么是 Fork、Cookie、Secrets？（新手必看）</b></summary>
 
-> 💡 如果你已经熟悉这些概念，可以跳过这部分直接看 [快速部署](#-快速部署3步搞定-)
+> 💡 如果你已经熟悉这些概念，可以跳过这部分直接看 [快速部署](#-快速部署)
 
 <details>
 <summary><b>🍴 什么是 Fork？</b></summary>
@@ -202,12 +208,15 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 **Run workflow** = 手动测试按钮。
 
-| 按钮 | 作用 |
-|------|------|
+| 按钮             | 作用                                               |
+| ---------------- | -------------------------------------------------- |
 | **Run workflow** | 立即执行一次（不管现在几点），用于测试配置是否正确 |
-| **定时任务** | 每天 9:30 和 21:30 自动执行，不需要手动操作 |
+| **定时任务**     | 每天 9:30 和 21:30 自动执行，不需要手动操作        |
 
 简单说：点 Run workflow 是**测试**，以后会**自动运行**。
+
+</details>
+</details>
 
 ---
 
@@ -225,7 +234,7 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 #### 2.1 安装 Cookie 扩展
 
-在 **Edge 浏览器** 的扩展商店搜索 `cookie`，安装 **Cookie-Editor** 或类似的 Cookie 管理扩展：
+在 **Edge 浏览器** 的扩展商店搜索 [cookie](file://d:\workplace\2026-glados-checkin\checkin.py#L0-L0)，安装 **Cookie-Editor** 或类似的 Cookie 管理扩展：
 
 ![Cookie-Editor 扩展](images/cookie-extension.png)
 
@@ -248,16 +257,18 @@ GLaDOS 在 2026 年初进行了 API 更新，**绝大多数旧签到脚本已失
 
 将两个值按以下格式组合，**注意格式必须完全正确**：
 
-```
+```text
 koa:sess=你的长字符串; koa:sess.sig=你的短字符串
 ```
 
 **正确示例**：
-```
+
+```text
 koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 ```
 
 **常见错误**：
+
 - ❌ 缺少分号 `;`
 - ❌ 缺少空格（分号后需要一个空格）
 - ❌ 值两边多了引号
@@ -295,9 +306,9 @@ else:
 
 添加以下两个 Secret：
 
-| Name | Value | 必需 |
-|------|-------|------|
-| `GLADOS_COOKIE` | 第二步组合的 Cookie | ✅ 是 |
+| Name             | Value                    | 必需  |
+| ---------------- | ------------------------ | ----- |
+| `GLADOS_COOKIE`  | 第二步组合的 Cookie      | ✅ 是 |
 | `PUSHPLUS_TOKEN` | 微信推送 Token（见下方） | ❌ 否 |
 
 ---
@@ -333,7 +344,9 @@ else:
 >
 > 由于 GitHub Actions 对新仓库的定时任务有限制（[详见说明](#-为什么-github-actions-定时不可靠)），我们推荐使用 **cron-job.org** 这项免费服务来触发签到。
 
-## ⭐ 推荐增加：cron-job.org 配置定时
+---
+
+## ⭐ 推荐方案：cron-job.org 配置定时
 
 ### 配置步骤
 
@@ -345,10 +358,10 @@ else:
 
 ![GitHub Token 设置](images/github_access_tokens.png)
 
-| 选项           | 值                             |
-| -------------- | ------------------------------ |
-| **Name**       | `glados-cron`（任意名称）      |
-| **Expiration** | 选择 90 天或更久               |
+| 选项           | 值                              |
+| -------------- | ------------------------------- |
+| **Name**       | `glados-cron`（任意名称）       |
+| **Expiration** | 选择 90 天或更久                |
 | **勾选权限**   | ✅ **workflow**（在 repo 下方） |
 
 4. 点击底部 **Generate token**
@@ -369,9 +382,9 @@ else:
 
 **基本信息**：
 
-| 选项      | 填写                                                         |
-| --------- | ------------------------------------------------------------ |
-| **Title** | `GLaDOS 早签到`                                              |
+| 选项      | 填写                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| **Title** | `GLaDOS 早签到`                                                                                        |
 | **URL**   | `https://api.github.com/repos/你的用户名/2026-glados-checkin/actions/workflows/checkin.yml/dispatches` |
 
 > ⚠️ **重要**：把 `你的用户名` 改成你的 GitHub 用户名！比如 `lankerr`
@@ -400,7 +413,7 @@ else:
 **请求体（Request body）**：选择 Raw Body，填入：
 
 ```json
-{"ref": "main"}
+{ "ref": "main" }
 ```
 
 ![常用配置预览](images/cron_common.png)
@@ -437,9 +450,6 @@ else:
 | 权限不足                     | 403 错误     | Token 无 workflow 权限 | 重新生成 Token，勾选 workflow 权限             |
 
 > 💡 **小贴士**：遇到 401/422 错误时，先检查上面三行 Headers 是否完全正确！
-
-
-
 
 **🎉 完成！** 以后每天 9:30 和 21:30 会自动签到。
 
@@ -492,7 +502,7 @@ python3 checkin.py
 
 ### 使用方法 (Flakes)
 
-在你的 `flake.nix` 中引入本项目：
+在你的 [flake.nix](file://d:\workplace\2026-glados-checkin\flake.nix) 中引入本项目：
 
 ```nix
 {
@@ -507,13 +517,13 @@ python3 checkin.py
       modules = [
         # 引入 glados-checkin 的 NixOS 模块
         glados-checkin.nixosModules.default
-        
+
         ({ config, pkgs, ... }: {
           # 配置服务
           services.glados-checkin = {
             enable = true;
-            cookie = "koa:sess=xxx; koa:sess.sig=yyy"; 
-            
+            cookie = "koa:sess=xxx; koa:sess.sig=yyy";
+
             # 【可选】消息推送配置
             pushLevel = "all"; # 或 "fail_only"
             pushplusToken = "xxx";
@@ -535,7 +545,7 @@ python3 checkin.py
 
 签到成功后，你会在微信收到类似这样的推送：
 
-```
+```text
 👤 your@email.com
 
 当前积分: 46 (+20)
@@ -552,10 +562,10 @@ python3 checkin.py
 
 ## ⏰ 自动运行时间
 
-| 时间（北京时间） | 说明 |
-|------------------|------|
-| **09:30** | 早间签到 |
-| **21:30** | 晚间签到 |
+| 时间（北京时间） | 说明     |
+| ---------------- | -------- |
+| **09:30**        | 早间签到 |
+| **21:30**        | 晚间签到 |
 
 > 💡 **重要**：请使用 [cron-job.org](#-推荐方案-cron-joborg-配置定时) 配置定时任务。GitHub Actions 的 schedule 功能对新仓库不可靠，可能不会自动触发！
 
@@ -568,22 +578,25 @@ python3 checkin.py
 
 **GitHub Actions 的定时任务（schedule trigger）对新仓库有严格限制**：
 
-| 仓库类型 | 定时任务状态 | 说明 |
-|----------|-------------|------|
-| 新仓库 | ❌ 不触发 | GitHub 会暂停定时任务执行 |
-| 不活跃仓库 | ❌ 不触发 | 长时间没有新活动的仓库 |
-| 活跃仓库 | ✅ 正常触发 | 需要持续活跃 1-2 周后才恢复 |
+| 仓库类型   | 定时任务状态 | 说明                        |
+| ---------- | ------------ | --------------------------- |
+| 新仓库     | ❌ 不触发    | GitHub 会暂停定时任务执行   |
+| 不活跃仓库 | ❌ 不触发    | 长时间没有新活动的仓库      |
+| 活跃仓库   | ✅ 正常触发  | 需要持续活跃 1-2 周后才恢复 |
 
 **现象**：
+
 - 手动点击 "Run workflow" 可以正常运行 ✅
 - 定时任务不会自动执行 ❌
 - Actions 页面没有定时运行记录
 
 **解决方案**：
+
 - **推荐**：使用 cron-job.org（免费、稳定、立即生效）
 - **备选**：连续 1-2 周每天手动触发一次 + keep-alive.yml 维护活跃度
 
 相关 GitHub Discussions：
+
 - [Discussion #185355](https://github.com/orgs/community/discussions/185355) - 新仓库定时任务不运行
 - [Discussion #185212](https://github.com/orgs/community/discussions/185212) - scheduled workflow 从不触发
 
@@ -597,20 +610,25 @@ python3 checkin.py
 请对照以下检查：
 
 **401 Unauthorized（认证失败）**：
-```
+
+```text
 ❌ Authorization: ghp_abc123...
 ✅ Authorization: token ghp_abc123...
 ```
+
 注意：`token ` 前缀后面必须有一个**空格**！
 
 **422 Unprocessable Entity（请求无法处理）**：
-```
+
+```text
 ❌ Body: {}
 ✅ Body: {"ref": "main"}
 ```
+
 GitHub API 要求必须指定分支名。
 
 **其他检查**：
+
 - Accept 头是否完整：`application/vnd.github.v3+json`
 - Token 是否有 `workflow` 权限
 - Token 是否过期（检查 Expiration 设置）
@@ -646,7 +664,8 @@ GitHub API 要求必须指定分支名。
 <summary><b>Q: 支持多个账号吗？</b></summary>
 
 支持！用英文符号 `&` 分隔多个 Cookie：
-```
+
+```text
 cookie1&cookie2&cookie3
 ```
 
@@ -680,11 +699,11 @@ cookie1&cookie2&cookie3
 
 ### 具体表现
 
-| 现象 | 说明 |
-|------|------|
+| 现象            | 说明                             |
+| --------------- | -------------------------------- |
 | ✅ 手动运行正常 | 点击 "Run workflow" 可以成功执行 |
-| ❌ 定时不执行 | 到了设定时间没有任何运行记录 |
-| ⏳ 长时间无反应 | 等待数天仍不会自动触发 |
+| ❌ 定时不执行   | 到了设定时间没有任何运行记录     |
+| ⏳ 长时间无反应 | 等待数天仍不会自动触发           |
 
 ### 根本原因
 
@@ -696,11 +715,11 @@ cookie1&cookie2&cookie3
 
 ### 解决方案对比
 
-| 方案 | 优点 | 缺点 | 推荐度 |
-|------|------|------|--------|
-| **cron-job.org** | 免费、稳定、立即生效 | 需要注册第三方服务 | ⭐⭐⭐⭐⭐ |
-| GitHub Actions + keep-alive | 完全在 GitHub 内 | 需等待 1-2 周恢复期 | ⭐⭐ |
-| 每天手动触发 | 简单直接 | 无法自动化 | ⭐ |
+| 方案                        | 优点                 | 缺点                | 推荐度     |
+| --------------------------- | -------------------- | ------------------- | ---------- |
+| **cron-job.org**            | 免费、稳定、立即生效 | 需要注册第三方服务  | ⭐⭐⭐⭐⭐ |
+| GitHub Actions + keep-alive | 完全在 GitHub 内     | 需等待 1-2 周恢复期 | ⭐⭐       |
+| 每天手动触发                | 简单直接             | 无法自动化          | ⭐         |
 
 ### 已采取的措施
 
@@ -712,12 +731,12 @@ cookie1&cookie2&cookie3
 
 ## 📂 项目文件
 
-| 文件 | 说明 |
-|------|------|
-| `checkin.py` | 核心签到脚本 |
-| `.github/workflows/checkin.yml` | GitHub Actions 配置 |
-| `requirements.txt` | Python 依赖 |
-| `images/` | 教程截图 |
+| 文件                                                                         | 说明                |
+| ---------------------------------------------------------------------------- | ------------------- |
+| [checkin.py](file://d:\workplace\2026-glados-checkin\checkin.py)             | 核心签到脚本        |
+| `.github/workflows/checkin.yml`                                              | GitHub Actions 配置 |
+| [requirements.txt](file://d:\workplace\2026-glados-checkin\requirements.txt) | Python 依赖         |
+| `images/`                                                                    | 教程截图            |
 
 ---
 
@@ -729,7 +748,7 @@ cookie1&cookie2&cookie3
 
 ---
 
-## � 更新日志
+## 📝 更新日志
 
 ### v1.1.0 (2026-01-25) 🔥 重大修复
 
@@ -737,9 +756,10 @@ cookie1&cookie2&cookie3
 
 **原因**：GLaDOS 官方更新了 API，签到 token 必须从 `glados.one` 改为 `glados.cloud`。
 
-**修复**：更新 `checkin.py` 中的 token 参数。
+**修复**：更新 [checkin.py](file://d:\workplace\2026-glados-checkin\checkin.py) 中的 token 参数。
 
 **排查过程**：
+
 1. 使用浏览器 DevTools 抓包分析真实签到请求
 2. 对比 Python 脚本与浏览器请求的差异
 3. 尝试添加 Headers、模拟 TLS 指纹等方案（均无效）
