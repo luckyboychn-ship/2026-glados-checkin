@@ -34,6 +34,9 @@ jobs:
         env:
           GLADOS_COOKIE: ${{ secrets.GLADOS_COOKIE }}
           PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          # 必须添加下面这两行
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
       - name: Retry on Failure
         if: failure()
@@ -45,3 +48,6 @@ jobs:
         env:
           GLADOS_COOKIE: ${{ secrets.GLADOS_COOKIE }}
           PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          # 同样也要添加这两行
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
