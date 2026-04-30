@@ -58,9 +58,8 @@
 | 🎁 **兑换提示** | 显示当前可兑换选项及差额        |
 | ⏰ **每日两次** | 早上 9:30 + 晚上 21:30 自动签到 |
 | 🔄 **失败重试** | 首次失败自动重试一次            |
-| 📱 **微信推送** | PushPlus 漂亮 HTML 报告         |
+| 📱 **tg推送** | PushPlus 漂亮 HTML 报告         |
 | ☁️ **2026 API** | 适配最新 glados.cloud API       |
-| 🔧 **持续维护** | 发现问题及时修复                |
 
 ---
 
@@ -79,9 +78,9 @@
 ---
 
 <details>
-<summary><b>📚 给小白的科普：什么是 Fork、Cookie、Secrets？（新手必看）</b></summary>
+<summary><b>📚 什么是 Fork、Cookie、Secrets？</b></summary>
 
-> 💡 如果你已经熟悉这些概念，可以跳过这部分直接看 [快速部署](#-快速部署)
+> 💡 如果你已经熟悉这些概念，可以跳过这部分
 
 <details>
 <summary><b>🍴 什么是 Fork？</b></summary>
@@ -162,14 +161,19 @@
 
 #### 2.2 登录 GLaDOS 并获取 Cookie
 
-1. 打开 [https://glados.cloud](https://glados.cloud) 并登录
-2. 进入 **签到页面**（Console → Checkin）
-3. 点击浏览器右上角的 **Cookie-Editor** 扩展图标
-4. 找到并复制这两个值：
-   - `koa:sess` → 一串很长的字符串
-   - `koa:sess.sig` → 一串较短的字符串
+打开浏览器，登录：https://glados.cloud
+按 F12 打开开发者工具
+找到：
+Chrome：Application → Cookies
+Firefox：存储 → Cookies
+选择 glados.cloud
+复制完整 Cookie 内容
+示例（示意）：
 
-![获取 Cookie](images/glados-cookies.png)
+koa:sess=xxxxxx; koa:sess.sig=yyyyyy
+⚠️ 必须是完整的一整段，不要只复制一半
+
+
 
 #### 2.3 组合 Cookie（重要！）
 
