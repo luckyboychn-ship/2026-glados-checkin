@@ -189,13 +189,13 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 
 ![添加 Secret](images/add-secret.png)
 
-添加以下两个 Secret：
+添加以下三个 Secret：
 
 | Name             | Value                    | 必需  |
 | ---------------- | ------------------------ | ----- |
 | `GLADOS_COOKIE`  | 第二步组合的 Cookie      | ✅ 是 |
-| `TELEGRAM_BOT_TOKEN` | 微信推送 Token（见下方） | ❌ 否 |
-| `TELEGRAM_CHAT_ID` | 微信推送 Token（见下方） | ❌ 否 |
+| `TELEGRAM_BOT_TOKEN` |  | ❌ 否 |
+| `TELEGRAM_CHAT_ID` |  | ❌ 否 |
 ---
 
 
