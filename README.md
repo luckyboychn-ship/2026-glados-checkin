@@ -56,8 +56,6 @@
 | --------------- | ------------------------------- |
 | 🎯 **精准积分** | 获取真实积分数据 + 每日变化量   |
 | 🎁 **兑换提示** | 显示当前可兑换选项及差额        |
-| ⏰ **每日两次** | 早上 9:30 + 晚上 21:30 自动签到 |
-| 🔄 **失败重试** | 首次失败自动重试一次            |
 | 📱 **tg推送** | PushPlus 漂亮 HTML 报告         |
 | ☁️ **2026 API** | 适配最新 glados.cloud API       |
 
@@ -70,7 +68,6 @@
 | 变量名               | 必填  | 说明                                                                       |
 | -------------------- | ----- | -------------------------------------------------------------------------- |
 | `GLADOS_COOKIE`      | ✅ 是 | GLaDOS 的 Cookie。多个账号请用 `&` 或换行符分隔。                          |
-| `PUSHPLUS_TOKEN`     | ❌ 否 | PushPlus 微信推送 Token。                                                  |
 | `TELEGRAM_BOT_TOKEN` | ❌ 否 | Telegram 机器人的 Token（例如 `123456:ABC-DEF1234...`）                    |
 | `TELEGRAM_CHAT_ID`   | ❌ 否 | 接收推送的 Telegram Chat ID                                                |
 | `PUSH_LEVEL`         | ❌ 否 | 推送级别：`all` (默认，每次均推送) 或 `fail_only` (仅有账号签到失败时推送) |
@@ -197,29 +194,12 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 | Name             | Value                    | 必需  |
 | ---------------- | ------------------------ | ----- |
 | `GLADOS_COOKIE`  | 第二步组合的 Cookie      | ✅ 是 |
-| `PUSHPLUS_TOKEN` | 微信推送 Token（见下方） | ❌ 否 |
-
+| `TELEGRAM_BOT_TOKEN` | 微信推送 Token（见下方） | ❌ 否 |
+| `TELEGRAM_CHAT_ID` | 微信推送 Token（见下方） | ❌ 否 |
 ---
 
-### 第四步：获取 PushPlus Token（可选）📱
 
-如果你希望签到后收到**微信通知**，请配置 PushPlus：
-
-1. 访问 [https://www.pushplus.plus](https://www.pushplus.plus)
-2. 点击右上角 **登录**，使用微信扫码登录
-
-![PushPlus 扫码登录](images/pushplus-checkin.png)
-
-3. 登录后点击 **发送消息** → **一对一消息**
-4. 复制页面上显示的 **Token**（类似 `05c3****dd36` 的字符串）
-
-![获取 Token](images/pushplus-token.png)
-
-5. 将 Token 添加到 GitHub Secrets，Name 填 `PUSHPLUS_TOKEN`
-
----
-
-### 第五步：启用 Actions ⚡
+### 第四步：启用 Actions ⚡
 
 1. 进入你 Fork 仓库的 **Actions** 标签页
 2. 如果看到黄色提示，点击 **I understand my workflows, go ahead and enable them**
@@ -228,104 +208,9 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 
 ![启用 Actions](images/workflow.png)
 
-> [!IMPORTANT]
->
-> 由于 GitHub Actions 对新仓库的定时任务有限制（[详见说明](#-为什么-github-actions-定时不可靠)），我们推荐使用 **cron-job.org** 这项免费服务来触发签到。
 
 ---
 
-## ⭐ 推荐方案：cron-job.org 配置定时
-
-### 配置步骤
-
-#### 第一步：获取 GitHub Personal Access Token
-
-1. 访问 [https://github.com/settings/tokens](https://github.com/settings/tokens)
-2. 点击 **Generate new token** → **Generate new token (classic)**
-3. 按下图配置：
-
-![GitHub Token 设置](images/github_access_tokens.png)
-
-| 选项           | 值                              |
-| -------------- | ------------------------------- |
-| **Name**       | `glados-cron`（任意名称）       |
-| **Expiration** | 选择 90 天或更久                |
-| **勾选权限**   | ✅ **workflow**（在 repo 下方） |
-
-4. 点击底部 **Generate token**
-5. **立即复制生成的 token**（格式类似 `ghp_1234567890abcdef...`，只显示一次！）
-
-> 💡 Token 示例：`ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
-
-#### 第二步：注册 cron-job.org
-
-1. 访问 [https://cron-job.org](https://cron-job.org) 注册账号（免费）
-2. 注册后登录，点击 **Create Cronjob** 创建任务
-
-#### 第三步：创建早签到任务（9:30）
-
-![创建 Cron 任务](images/create_corn_job.png)
-
-按照以下配置填写：
-
-**基本信息**：
-
-| 选项      | 填写                                                                                                   |
-| --------- | ------------------------------------------------------------------------------------------------------ |
-| **Title** | `GLaDOS 早签到`                                                                                        |
-| **URL**   | `https://api.github.com/repos/你的用户名/2026-glados-checkin/actions/workflows/checkin.yml/dispatches` |
-
-> ⚠️ **重要**：把 `你的用户名` 改成你的 GitHub 用户名！比如 `lankerr`
-
-**执行时间**：选择每天 **09:30**（Asia/Shanghai 时区）
-
-**高级配置**（点击 Advanced 展开）：
-
-![高级配置](images/cron_advanced.png)
-
-| 选项               | 值            |
-| ------------------ | ------------- |
-| **Request method** | POST          |
-| **Time zone**      | Asia/Shanghai |
-
-**请求头（Headers）**：点击 "+ 添加" 添加三行：
-
-| Key             | Value                            |
-| --------------- | -------------------------------- |
-| `Accept`        | `application/vnd.github.v3+json` |
-| `Authorization` | `token 你复制的GitHub_Token`     |
-| `Content-Type`  | `application/json`               |
-
-> ⚠️ **注意**：Authorization 的值是 `token ` + **空格** + 你的 Token，例如：`token ghp_NXLTUqT51BFfilsaZNlaVstacNnkZc4PYCNa`
-
-**请求体（Request body）**：选择 Raw Body，填入：
-
-```json
-{ "ref": "main" }
-```
-
-![常用配置预览](images/cron_common.png)
-
-配置完成后点击 **Save** 保存。
-
-#### 第四步：创建晚签到任务（21:30）
-
-复制早签到任务，创建第二个任务：
-
-- Title 改为 `GLaDOS 晚签到`
-- 执行时间改为 **21:30**
-- 其他配置完全相同
-
-#### 第五步：测试验证
-
-1. 在任务列表点击 **Test run** 测试
-2. 成功会显示 **204 No Content** ✅
-
-![测试成功](images/cron_success.png)
-
-3. 到 GitHub 仓库的 **Actions** 页面查看，应该有新的运行记录
-
----
 
 ### 🚨 常见陷阱与错误
 
