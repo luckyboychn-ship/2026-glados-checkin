@@ -42,12 +42,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[👉 点击开始配置](#-快速部署)**
 
----
-
-[![Auto Checkin](https://github.com/lankerr/2026-glados-checkin/actions/workflows/checkin.yml/badge.svg)](https://github.com/lankerr/2026-glados-checkin/actions)
-[![GitHub Stars](https://img.shields.io/github/stars/lankerr/2026-glados-checkin?style=social)](https://github.com/lankerr/2026-glados-checkin)
 
 **⭐ 觉得有用？点个 Star 支持一下！**
 
