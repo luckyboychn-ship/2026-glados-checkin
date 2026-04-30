@@ -147,20 +147,6 @@
 
 ### 第二步：获取 Cookie 🍪
 
-> ⚠️ **注意**：GLaDOS 官网已迁移到 **[https://glados.cloud](https://glados.cloud)**，请使用新域名！
-
-#### 2.1 安装 Cookie 扩展
-
-在 **Edge 浏览器** 的扩展商店搜索 [cookie](file://d:\workplace\2026-glados-checkin\checkin.py#L0-L0)，安装 **Cookie-Editor** 或类似的 Cookie 管理扩展：
-
-![Cookie-Editor 扩展](images/cookie-extension.png)
-
-> 💡 **提示**：以下任意一个扩展都可以使用，只要能显示 `koa:sess` 和 `koa:sess.sig` 这两个 Cookie 就行！
-
-![可选的 Cookie 扩展](images/cookie-alternative.png)
-
-#### 2.2 登录 GLaDOS 并获取 Cookie
-
 打开浏览器，登录：https://glados.cloud
 按 F12 打开开发者工具
 找到：
@@ -175,7 +161,7 @@ koa:sess=xxxxxx; koa:sess.sig=yyyyyy
 
 
 
-#### 2.3 组合 Cookie（重要！）
+####  组合 Cookie（重要！）
 
 将两个值按以下格式组合，**注意格式必须完全正确**：
 
@@ -196,26 +182,6 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 - ❌ 值两边多了引号
 - ❌ 复制了多余的空格或换行
 
-#### 2.4 验证你的 Cookie 格式
-
-运行以下 Python 代码验证格式是否正确：
-
-```python
-# 将你的 Cookie 粘贴到下面的引号中
-cookie = "koa:sess=你的长字符串; koa:sess.sig=你的短字符串"
-
-# 验证
-if "koa:sess=" in cookie and "koa:sess.sig=" in cookie and "; " in cookie:
-    parts = cookie.split("; ")
-    if len(parts) == 2 and parts[0].startswith("koa:sess=") and parts[1].startswith("koa:sess.sig="):
-        print("✅ Cookie 格式正确！")
-    else:
-        print("❌ 格式错误，请检查分号和空格")
-else:
-    print("❌ Cookie 缺少必要的字段")
-```
-
----
 
 ### 第三步：配置 GitHub Secrets 🔐
 
