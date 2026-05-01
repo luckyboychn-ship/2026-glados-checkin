@@ -159,7 +159,7 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 1. 访问 [https://cron-job.org](https://cron-job.org) 注册账号（免费）
 2. 注册后登录，点击 **Create Cronjob** 创建任务
 
-#### 第三步：创建签到任务（9:30）
+#### 第三步：创建签到任务（7:00）
 
 ![创建 Cron 任务](images/create_corn_job.png)
 
@@ -169,12 +169,12 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 
 | 选项      | 填写                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------ |
-| **Title** | `GLaDOS 早签到`                                                                                        |
+| **Title** | `GLaDOS 签到`                                                                                        |
 | **URL**   | `https://api.github.com/repos/你的用户名/2026-glados-checkin/actions/workflows/checkin.yml/dispatches` |
 
 > ⚠️ **重要**：把 `你的用户名` 改成你的 GitHub 用户名！比如 `lankerr`
 
-**执行时间**：选择每天 **09:30**（Asia/Shanghai 时区）
+**执行时间**：选择每天 **07:00**（Asia/Shanghai 时区）
 
 **高级配置**（点击 Advanced 展开）：
 
@@ -231,7 +231,7 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 
 > 💡 **小贴士**：遇到 401/422 错误时，先检查上面三行 Headers 是否完全正确！
 
-**🎉 完成！** 以后每天 9:30 会自动签到，注意有可能有延迟。
+**🎉 完成！** 以后每天 7:00 会自动签到，注意有可能有延迟。
 
 ---
 
