@@ -201,7 +201,6 @@ koa:sess=eyJ1c2VySWQiOjEyMzQ1Njc4OTB9; koa:sess.sig=abcdef123456
 { "ref": "main" }
 ```
 
-![常用配置预览](images/cron_common.png)
 
 配置完成后点击 **Save** 保存。
 
